@@ -1,0 +1,29 @@
+from collections import Counter
+
+class Solution:
+    def vowelCount(self, s):
+        vowels = set('aeiou')
+        freq = Counter(s)
+        
+        vowel_list = []
+        
+        for ch in vowels:
+            if freq[ch] > 0:
+                vowel_list.append(freq[ch])
+        
+        k = len(vowel_list)
+        
+        if k == 0:
+            return 0
+        
+        # product of frequencies
+        ways = 1
+        for f in vowel_list:
+            ways *= f
+        
+        # factorial of k
+        perm = 1
+        for i in range(2, k + 1):
+            perm *= i
+        
+        return ways * perm
