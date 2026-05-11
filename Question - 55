@@ -1,0 +1,45 @@
+class Solution:
+    def equalPartition(self, arr):
+        n = len(arr)
+        total = sum(arr)
+
+        # If total sum is odd, equal partition not possible
+        if total % 2 != 0:
+            return []
+
+        target = total // 2
+
+        # Allowed subset sizes
+        if n % 2 == 0:
+            possible_sizes = {n // 2}
+        else:
+            possible_sizes = {(n - 1) // 2, (n + 1) // 2}
+
+        # Try all subsets
+        for mask in range(1 << n):
+            subset_sum = 0
+            subset = []
+
+            for i in range(n):
+                if mask & (1 << i):
+                    subset_sum += arr[i]
+                    subset.append(arr[i])
+
+            # check size constraint
+            if len(subset) not in possible_sizes:
+                continue
+
+            # check sum constraint
+            if subset_sum == target:
+                remaining = []
+                used = set(subset)
+
+                # build remaining subset (handles duplicates safely)
+                temp = arr[:]
+                for x in subset:
+                    temp.remove(x)
+                remaining = temp
+
+                return [subset, remaining]
+
+        return []
