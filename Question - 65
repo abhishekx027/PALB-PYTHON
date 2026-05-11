@@ -1,0 +1,17 @@
+from collections import defaultdict
+
+class Solution:
+    def countPairs(self, arr):
+        freq = defaultdict(int)
+        ans = 0
+        
+        for s in arr:
+            n = len(s)
+            
+            for i in range(n):
+                pattern = s[:i] + '*' + s[i+1:]
+                
+                ans += freq[pattern]
+                freq[pattern] += 1
+        
+        return ans
