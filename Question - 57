@@ -1,0 +1,33 @@
+class Solution:
+    def countLessEqual(self, arr, x):
+        n = len(arr)
+        
+        # Step 1: find pivot (smallest element index)
+        low, high = 0, n - 1
+        
+        while low < high:
+            mid = (low + high) // 2
+            
+            if arr[mid] > arr[high]:
+                low = mid + 1
+            else:
+                high = mid
+        
+        pivot = low
+        
+        # Step 2: binary search on virtual sorted array
+        low, high = 0, n - 1
+        ans = 0
+        
+        while low <= high:
+            mid = (low + high) // 2
+            
+            real_idx = (pivot + mid) % n
+            
+            if arr[real_idx] <= x:
+                ans = mid + 1
+                low = mid + 1
+            else:
+                high = mid - 1
+        
+        return ans
