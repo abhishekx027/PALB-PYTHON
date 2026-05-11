@@ -1,0 +1,43 @@
+class Solution {
+  public:
+    vector<long long> submatrixSum(vector<vector<long long>> &a, int n, int m,
+            vector<vector<int>> query, int q){
+
+        // Prefix sum matrix
+        vector<vector<long long>> prefix(n + 1, vector<long long>(m + 1, 0));
+
+        // Build prefix sum
+        for(int i = 1; i <= n; i++) {
+            for(int j = 1; j <= m; j++) {
+
+                prefix[i][j] = a[i - 1][j - 1]
+                             + prefix[i - 1][j]
+                             + prefix[i][j - 1]
+                             - prefix[i - 1][j - 1];
+            }
+        }
+
+        vector<long long> ans;
+
+        // Process queries
+        for(int k = 0; k < q; k++) {
+
+            int r1 = query[k][0];
+            int c1 = query[k][1];
+            int r2 = query[k][2];
+            int c2 = query[k][3];
+
+            // Convert to 1-based indexing
+            r1++, c1++, r2++, c2++;
+
+            long long sum = prefix[r2][c2]
+                          - prefix[r1 - 1][c2]
+                          - prefix[r2][c1 - 1]
+                          + prefix[r1 - 1][c1 - 1];
+
+            ans.push_back(sum);
+        }
+
+        return ans;
+    }
+};
