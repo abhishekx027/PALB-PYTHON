@@ -1,0 +1,30 @@
+class Solution:
+    def median(self, mat):
+        n = len(mat)
+        m = len(mat[0])
+        
+        min_val = min(row[0] for row in mat)
+        max_val = max(row[-1] for row in mat)
+        
+        desired_count = (n * m) // 2  # Middle index (0-based)
+        
+        while min_val <= max_val:
+            mid = (min_val + max_val) // 2
+            
+            count = 0
+            for row in mat:
+                l, r = 0, m
+                while l < r:
+                    md = (l + r) // 2
+                    if row[md] <= mid:
+                        l = md + 1
+                    else:
+                        r = md
+                count += l
+            
+            if count <= desired_count:
+                min_val = mid + 1
+            else:
+                max_val = mid - 1
+        
+        return min_val
