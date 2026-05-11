@@ -1,0 +1,17 @@
+class Solution:
+    def minSwaps(self, s1, s2):
+        a = 0  # count of (1,0)
+        b = 0  # count of (0,1)
+        
+        for i in range(len(s1)):
+            if s1[i] == '1' and s2[i] == '0':
+                a += 1
+            elif s1[i] == '0' and s2[i] == '1':
+                b += 1
+        
+        # if total mismatches are odd, impossible
+        if (a + b) % 2 != 0:
+            return -1
+        
+        # compute minimum swaps
+        return (a // 2) + (b // 2) + (a % 2 + b % 2)
