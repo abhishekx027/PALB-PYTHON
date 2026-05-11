@@ -1,0 +1,23 @@
+from collections import defaultdict
+
+class Solution:
+    def countBalanced(self, arr):
+        vowels = set('aeiou')
+        
+        prefix = 0
+        freq = defaultdict(int)
+        freq[0] = 1
+        
+        ans = 0
+        
+        for word in arr:
+            for ch in word:
+                if ch in vowels:
+                    prefix += 1
+                else:
+                    prefix -= 1
+            
+            ans += freq[prefix]
+            freq[prefix] += 1
+        
+        return ans
